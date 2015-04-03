@@ -11,7 +11,7 @@ AWS_REGION = ENV['AWS_REGION']
 AWS_SQS_QUEUE_URL = ENV['AWS_SQS_QUEUE_URL']
 SUBREDDIT = ENV['SUBREDDIT']
 SLEEP_TIME = ENV['SLEEP_TIME'].to_i
-DATA_KEYS = ['domain', 'selftext', 'id', 'author', 'over_18', 'thumbnail', 'subreddit_id' ,'permalink', 'name' ,'created_utc' ,'url', 'title']
+DATA_KEYS = ['domain', 'selftext', 'id', 'author', 'over_18', 'is_self', 'thumbnail', 'subreddit_id' ,'permalink', 'name' ,'created_utc' ,'url', 'title']
 
 credentials = Aws::Credentials.new(AWS_ID, AWS_SECRET)
 sqs = Aws::SQS::Client.new(region: AWS_REGION, credentials: credentials)
