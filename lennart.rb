@@ -11,7 +11,7 @@ AWS_REGION = ENV['AWS_REGION']
 AWS_SQS_QUEUE_URL = ENV['AWS_SQS_QUEUE_URL']
 SUBREDDIT = ENV['SUBREDDIT']
 SLEEP_TIME = ENV['SLEEP_TIME'].to_i
-DATA_KEYS = ['domain', 'selftext', 'id', 'author', 'over_18', 'is_self', 'thumbnail', 'subreddit_id' ,'permalink', 'name' ,'created_utc' ,'url', 'title']
+DATA_KEYS = ['subreddit', 'domain', 'selftext', 'id', 'author', 'over_18', 'is_self', 'thumbnail', 'subreddit_id' ,'permalink', 'name' ,'created_utc' ,'url', 'title']
 
 credentials = Aws::Credentials.new(AWS_ID, AWS_SECRET)
 sqs = Aws::SQS::Client.new(region: AWS_REGION, credentials: credentials)
@@ -36,8 +36,6 @@ while true do
         wanted_item_data = item_data.keep_if{|key, value| DATA_KEYS.include?(key)}
         {message_body: wanted_item_data.to_json, id: wanted_item_data['id']}
       end
-
-      puts entries.count
 
       entries.each_slice(10) do |payload|
         sqs.send_message_batch queue_url: AWS_SQS_QUEUE_URL, entries: payload
